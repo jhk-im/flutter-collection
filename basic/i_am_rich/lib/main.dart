@@ -40,6 +40,25 @@ import 'package:flutter/material.dart';
  * Navigator 이전 route 가 있으면 BackButton 추가됨
  * 위 동작들은 automaticallyImplyLeading = false 로 설정 off
  *
+ * Image() Widget
+ * - Image.new : ImageProvider 에서 이미지를 가져옴
+ * Image.asset : AssetBundle 에서 키를 사용하여 이미지를 가져옴
+ * Image.network : URL 에서 이미지를 가져옴
+ * Image.file : File 에서 이미지를 가져옴
+ * Image.memory : Unit8List 에서 이미지를 가져옴
+ * - JPEG, PNG, GIF, Animated GIF, WebP, Animated WebP, BMP, WBMP
+ * - paintImage 를 사용하여 그려짐
+ * https://api.flutter.dev/flutter/painting/paintImage.html
+ *
+ * Center()
+ * - dimensions 가 제한되어 있고 widthFactor | heightFactor 가 Null 인 경우 가능한 큰 크기가 됨
+ * dimensions 가 제한되어 있지 않고 크기요소가 null 이면 child widget 의 크기와 일치
+ * 크기 요소가 Null 이 아닌 경우 child widget 과 크기 요소의 곱이 됨
+ * - Align 은 child widget 위치를 커스텀 할 수 있음
+ * row 는 child widget 을 수평으로 표시
+ * column 은 child widget 을 수직으로 표시
+ * container 는 공통적인 페인팅, 위치 지정 및 크기 조정 위젯을 결합한 위젯
+ *
  * Material Color System
  * - https://m2.material.io/design/color/the-color-system.html#color-theme-creation
  */
@@ -53,6 +72,11 @@ void main() {
           title: const Text('I Am Rich'),
           backgroundColor: Colors.blueGrey[900],
         ),
+        body: const Center(
+          child: Image(
+            image: NetworkImage('https://www.w3schools.com/w3css/img_lights.jpg'),
+          ),
+        )
       ),
     )
   );
