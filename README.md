@@ -1,2 +1,3 @@
-# flutter-samples
-Flutter sample collections
+# flutter-collection
+
+Flutter collection
