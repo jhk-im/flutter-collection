@@ -113,3 +113,207 @@ child: Container(
             ],
           ),
 ```
+
+### CircleAvatar Widget
+
+* 사용자의 프로필 이미지를 원형으로 표시
+* 이미지가 없는 경우 이니셜 표시
+* radius로 크기 조절
+
+### Custom Font
+
+[Google Fonts](https://fonts.google.com/)
+
+[Flutter Custom Font](https://docs.flutter.dev/cookbook/design/fonts)
+
+* 글꼴 추가는 Hot Reload, Restart 적용 안됨
+
+### Icon Widget
+
+* Material에 미리 정의 된 IconDatas와 같은 IconData에서 설명된 글리프로 그려진 그래픽 아이콘 위젯
+* 상호작용 불가능 -> 상호작용은 IconButton 활용
+* 주위에 Directionnality 위젯이 있어야 함 -> 이란적으로 WidgetsApp 또는 MaterialApp에 자동으로 추가됨
+* 렌더링 된 아이콘이 squared형임을 가정함
+
+[Flutter Icons](https://api.flutter.dev/flutter/material/Icons-class.html)
+
+[Material Icons](https://m3.material.io/styles/icons/overview)
+
+[Material Palette](https://www.materialpalette.com/)
+
+```dart
+child: Column(
+            children: [
+              CircleAvatar(
+                radius: 50.0,
+                backgroundImage: AssetImage('images/jhk.jpg'),
+              ),
+              Text(
+                'JeongHun kim',
+                style: TextStyle(
+                  fontFamily: 'Pacifico',
+                  fontSize: 40.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'FLUTTER DEVELOPER',
+                style: TextStyle(
+                  fontFamily: 'Source Sans Pro',
+                  color: Colors.teal.shade100,
+                  fontSize: 20.0,
+                  letterSpacing: 2.5,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(10.0),
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.phone,
+                      color: Colors.teal,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text(
+                      '+82 010 1234 5678',
+                      style: TextStyle(
+                        fontFamily: 'Source Sans Pro',
+                        color: Colors.teal.shade900,
+                        fontSize: 20.0,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(10.0),
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.email,
+                      color: Colors.teal,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text(
+                      'jhk@jhk.com',
+                      style: TextStyle(
+                        fontFamily: 'Source Sans Pro',
+                        color: Colors.teal.shade900,
+                        fontSize: 20.0,
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          )
+```
+
+### Card Widget
+
+* 둥근 모서리와 그림자가 있는 패널
+* 앨범, 연락처와 같은 저오를 나타내는 데 사용되는 Material Sheet
+* padding 속성이 없음
+* Padding Class
+  * 주어진 패딩으로 자식 위젯을 안쪽으로 감싸는 위젯
+  * 주어진 패딩 값만큼 제약 조건을 충족시켜 자식 위젯이 더 작은 크기에서 레이아웃 되도록 함
+  * 패딩을 고려한 크기로 자식 위젯을 확장하여 주어진 패딩 값 만큼 빈 공간 생성
+* ListTitle Class
+  * 텍스트와 선행/후행 아이콘을 포함하는 고정 높이 패널
+  * 아이콘은 leading/trailing이 매개변수로 정의
+  * 첫 번째 텍스트 줄은 title
+  * subtitle값은 선택적이며 하나의 추가 텍스트 혹은 isThreeLine=true로 설정하여 두 줄의 공간을 사용할 수 있음
+  * 아이콘의 높이는 Material 규격에 따라 제한됨
+  * 일반적으로 ListView, Drawer, Card에서 Column 배열됨
+  * 페인트를 위해 트리에 Material 위젯 상위계층이 필요함 -> 일반적으로 Scaffold에 의해 제공됨 -> titleColor, selectedTitleColor, focusColor 및 hoverColor는 ListTitle 자체에서 그려지지 않고 상위 층에 의해 그려짐
+
+### Divider Widget
+
+* 얇은 수평선이며 양쪽에 패딩이 있음
+* 구분선으로 사용
+* list, Drawer 분리에 사용
+* ListTitle 아이템 내부에 구분선은 ListTitle.divideTitles를 활용
+
+```dart
+Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 50.0,
+                backgroundImage: AssetImage('images/jhk.jpg'),
+              ),
+              Text(
+                'JeongHun kim',
+                style: TextStyle(
+                  fontFamily: 'Pacifico',
+                  fontSize: 40.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'FLUTTER DEVELOPER',
+                style: TextStyle(
+                  fontFamily: 'Source Sans Pro',
+                  color: Colors.teal.shade100,
+                  fontSize: 20.0,
+                  letterSpacing: 2.5,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+                width: 150.0,
+                child: Divider(
+                  color: Colors.teal.shade100,
+                ),
+              ),
+              Card(
+                color: Colors.white,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.phone,
+                    color: Colors.teal,
+                  ),
+                  title: Text(
+                    '+82 000 1234 5678',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.teal.shade900,
+                      fontFamily: 'Source Sans Pro',
+                    ),
+                  ),
+                ),
+              ),
+              Card(
+                color: Colors.white,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.email,
+                    color: Colors.teal,
+                  ),
+                  title: Text(
+                    'jhk@email.com',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.teal.shade900,
+                      fontFamily: 'Source Sans Pro',
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
+```
