@@ -82,41 +82,7 @@ child: Container(
   * 사용 가능한 공간을 채우기 위해 ExpandedWidget으로 자식 위젯을 감싸야 함
 
 ```dart
-child: Column(
-    //mainAxisSize: MainAxisSize.min,
-    //mainAxisAlignment: MainAxisAlignment.center,
-    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //verticalDirection: VerticalDirection.up,
-    //crossAxisAlignment: CrossAxisAlignment.start,
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-        Container(
-            height: 100.0,
-            //width: double.infinity,
-            color: Colors.white,
-            child: Text('Container1'),
-        ),
-        SizedBox(
-            height: 20.0,
-        ),
-        Container(
-            height: 100.0,
-            //width: double.infinity,
-            color: Colors.blue,
-            child: Text('Container2'),
-        ),
-        Container(
-            height: 100.0,
-            //width: double.infinity,
-            color: Colors.red,
-            child: Text('Container2'),
-        ),
-    ],
-)
-```
-
-child: Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
@@ -146,3 +112,4 @@ child: Row(
               ),
             ],
           ),
+```
