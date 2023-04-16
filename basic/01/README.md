@@ -2,7 +2,7 @@
 
 ## 학습내용
 
-### void main() => runApp();
+### void main() => runApp()
 
 * 모든 플러터 앱의 시작점
 
@@ -54,7 +54,7 @@
 * JPEG, PNG, GIF, Animated GIF, WebP, Animated WebP, BMP, WBMP
 * paintImage 를 사용하여 그려짐
 
-https://api.flutter.dev/flutter/painting/paintImage.html
+[paintImage](https://api.flutter.dev/flutter/painting/paintImage.html)
 
 ### Center()
 
@@ -65,6 +65,5 @@ https://api.flutter.dev/flutter/painting/paintImage.html
 * row 는 child widget 을 수평으로 표시
 * column 은 child widget 을 수직으로 표시
 * container 는 공통적인 페인팅, 위치 지정 및 크기 조정 위젯을 결합한 위젯
-* Material Color System
 
-https://m2.material.io/design/color/the-color-system.html#color-theme-creation
+[Material Color System](https://m2.material.io/design/color/the-color-system.html#color-theme-creation)
