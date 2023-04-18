@@ -43,3 +43,56 @@
                 child: Image.asset('images/dice2.png')),
         ),
 ```
+
+### StatefulWidget
+
+* 상태를 가지는 위젯
+* 사용자 인터랙션이나 데이터 변경과 같이 앱의 상태에 따라 변화해야 하는 경우 사용
+* 내부에 가변 상태를 저장하고 있고 상태 변화에 따라 화면이 다시 그려짐
+* State 클래스와 함께 사용됨
+  * 가변 상태를 저장하고 상황 변화에 따른 화면 업데이트를 처리함
+  * createState() 메서드를 사용해 인스턴스를 생성하고 반환
+
+```dart
+class DicePage extends StatefulWidget {
+  const DicePage({Key key}) : super(key: key);
+
+  @override
+  State<DicePage> createState() => _DicePageState();
+}
+
+class _DicePageState extends State<DicePage> {
+  int leftDiceNumber = Random().nextInt(6) + 1;
+  int rightDiceNumber = Random().nextInt(6) + 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Row(
+        children: [
+          Expanded(
+            child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    print('1');
+                    leftDiceNumber = Random().nextInt(6) + 1;
+                  });
+                },
+                child: Image.asset('images/dice$leftDiceNumber.png')),
+          ),
+          Expanded(
+            child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    print('2');
+                    rightDiceNumber = Random().nextInt(6) + 1;
+                  });
+                },
+                child: Image.asset('images/dice$rightDiceNumber.png')),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
