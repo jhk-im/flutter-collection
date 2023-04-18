@@ -142,7 +142,7 @@ child: Container(
 [Material Palette](https://www.materialpalette.com/)
 
 ```dart
-child: Column(
+          child: Column(
             children: [
               CircleAvatar(
                 radius: 50.0,
@@ -245,7 +245,7 @@ child: Column(
 * ListTitle 아이템 내부에 구분선은 ListTitle.divideTitles를 활용
 
 ```dart
-Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
