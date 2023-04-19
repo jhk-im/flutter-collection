@@ -92,3 +92,23 @@ class BMICalculator extends StatelessWidget {
 
 ### Route and Navigation
 
+* Route
+  * 앱의 화면 전환을 관리하는 클래스
+  * 새로운 화면으로 이동하거나 현재 화면에서 이전 화면으로 돌아가는 등의 전환 관리
+  * 일반적으로 StatelessWidget이나 StatefulWidget을 상속받아 화면을 생성
+  * Navigator.push() -> 다음 화면 이동
+  * Navigator.pop() -> 이전 화면 이동
+  * MaterialPageRoute
+    * 가장 간단한 Route 유형
+  * CustomRoute
+    * 사용자 지정 Route 클래스
+    * 화면 전환을 사용자 방식으로 제어
+    * 애니메이션, 트랜지션 및 다양한 기능 추가
+  * Named Routes
+    * 이름으로 라우팅 지정하는 방법
+    * 라우팅을 보다 쉽게 관리
+* Navigator
+  * 화면 간 전환, 데이터 전달, 상태 관리 및 라우팅과 관련된 모든 작업울 다룸
+  * Navigator 클래스를 사용하여 구현
+  * 스택으로 구성된 화면의 지합을 관리
+  * Route가 핵심 개념임
