@@ -34,6 +34,7 @@ class _PriceScreenState extends State<PriceScreen> {
         setState(() {
           if (value != null) {
             selectedCurrency = value;
+            print(selectedCurrency);
             getExchangeData();
           }
         });
