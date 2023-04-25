@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
+
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -11,6 +14,30 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  User? loggedInUser;
+
+  void getCurrentUser() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        if (kDebugMode) {
+          print('User is currently signed out!');
+          Navigator.pop(context);
+        }
+      } else {
+        if (kDebugMode) {
+          print('User is signed in!');
+        }
+        _ChatScreenState().loggedInUser = user;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

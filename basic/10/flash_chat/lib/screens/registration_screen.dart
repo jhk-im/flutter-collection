@@ -1,5 +1,8 @@
 import 'package:flash_chat/constants.dart';
+import 'package:flash_chat/screens/chat_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -11,6 +14,26 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+
+  String? email;
+  String? password;
+
+  Future<bool> registration() async {
+    try {
+      if (email != null && password != null) {
+        await _auth.createUserWithEmailAndPassword(
+            email: email!, password: password!);
+        return true;
+      }
+    } catch(e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,19 +55,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
+              keyboardType: TextInputType.emailAddress,
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                email = value;
               },
-              decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+              decoration:
+                  kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
             ),
             const SizedBox(
               height: 8.0,
             ),
             TextField(
+              obscureText: true,
+              textAlign: TextAlign.center,
               onChanged: (value) {
-                //Do something with the user input.
+                password = value;
               },
-            decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
+              decoration: kTextFieldDecoration.copyWith(
+                  hintText: 'Enter your password'),
             ),
             const SizedBox(
               height: 24.0,
@@ -56,8 +85,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 borderRadius: const BorderRadius.all(Radius.circular(30.0)),
                 elevation: 5.0,
                 child: MaterialButton(
-                  onPressed: () {
-                    //Implement registration functionality.
+                  onPressed: () async {
+                    if (kDebugMode) {
+                      print(email);
+                      print(password);
+                    }
+                    if (await registration()) {
+                      Navigator.pushNamed(context, ChatScreen.id);
+                    }
                   },
                   minWidth: 200.0,
                   height: 42.0,
