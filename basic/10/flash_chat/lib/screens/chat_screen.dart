@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash_chat/components/message_bubble.dart';
 
+User? loggedInUser;
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -14,23 +18,42 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  User? loggedInUser;
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  final messageTextController = TextEditingController();
+  String? messageText;
 
   void getCurrentUser() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    _auth.authStateChanges().listen((User? user) {
       if (user == null) {
         if (kDebugMode) {
           print('User is currently signed out!');
-          Navigator.pop(context);
+          Navigator.pushNamed(context, WelcomeScreen.id);
         }
       } else {
         if (kDebugMode) {
           print('User is signed in!');
         }
-        _ChatScreenState().loggedInUser = user;
+        loggedInUser = user;
       }
     });
   }
+
+  // void messageStream() {
+  //   _firestore.collection('messages').get().then((value) {
+  //     for (var doc in value.docs) {
+  //       print('init');
+  //       print(doc.data());
+  //     }
+  //   });
+  //
+  //   _firestore.collection('messages').snapshots().listen((value) {
+  //     for (var doc in value.docs) {
+  //       print('realtime');
+  //       print(doc.data());
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
@@ -47,7 +70,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: const Icon(Icons.close),
               onPressed: () {
-                //Implement logout functionality
+                _auth.signOut();
               }),
         ],
         title: const Text('⚡️Chat'),
@@ -55,9 +78,12 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            const Flexible(
+              flex: 1,
+              child: ChatList(),
+            ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -65,15 +91,21 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: messageTextController,
                       onChanged: (value) {
-                        //Do something with the user input.
+                        messageText = value;
                       },
                       decoration: kMessageTextFieldDecoration,
                     ),
                   ),
                   MaterialButton(
-                    onPressed: () {
-                      //Implement send functionality.
+                    onPressed: () async {
+                      await _firestore.collection('messages').add({
+                        'text': messageText,
+                        'sender': loggedInUser?.email,
+                      });
+
+                      messageTextController.clear();
                     },
                     child: const Text(
                       'Send',
@@ -86,6 +118,49 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ChatList extends StatefulWidget {
+  const ChatList({Key? key}) : super(key: key);
+  @override
+  State<ChatList> createState() => _ChatListState();
+}
+
+class _ChatListState extends State<ChatList> {
+  final Stream<QuerySnapshot> _messageStream =
+      FirebaseFirestore.instance.collection('messages').snapshots();
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _messageStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text("Loading");
+        }
+
+        return ListView.builder(
+          itemBuilder: (BuildContext context, int index) {
+            if (index < snapshot.data!.docs.length) {
+              var data = snapshot.data!.docs;
+              String sender = data.elementAt(index)['sender'];
+              String text = data.elementAt(index)['text'];
+              return MessageBubble(
+                  sender: sender,
+                  text: text,
+                  isMe: sender == loggedInUser?.email);
+            }
+          },
+        );
+      },
     );
   }
 }

@@ -150,3 +150,31 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
   }
 }
 ```
+
+### Stream
+
+* 비동기적으로 여러 갓을 반환할 수 있는 객체
+* 새 값이 생성되거나 기존 값이 업데이트 되는 경우 발생
+* 데이터 이벤트 / 에러 이벤트 두가지를 생성할 수 있음
+* where() 메서드로 조건에 맞는 데이터 이벤트만 선택 가능
+* listen() 메서드를 사용하여 이벤트를 구독하고 비동기 처리
+
+### StreamBuilder
+
+* Stream 객체를 효과적으로 사용하는 방법
+* Stream에서 전달되는 데이터를 비동기적으로 표시하는 Flutter 위젯
+* Stream을 수신하고 해당 데이터가 변경 될 때 다시 빌드됨
+* UI 자동 업데이트를 목적으로 사용
+* stream: 수신할 stream 객체
+* builder:
+  * 데이터가 전달될 때마다 호출할 콜백함수
+  * BuildContext, AsyncSnapshot 객체를 인자로 받음
+  * AsyncSnapshot에 Stream에서 반환된 최신 데이터를 포함
+
+### ListView
+
+* 스크롤 가능한 목록을 표시하는 데 사용
+* 3가지 유형
+  * ListView: 작은 목록에 적합
+  * ListView.builder: 목록 항목이 많은 경우, 즉 많은 목록 항목을 동적으로 생성하는 경우 사용
+  * ListView.separated: 목록 항목 사이에 구분선을 추가하는 데 사용
