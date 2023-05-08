@@ -34,3 +34,96 @@
   * 유연성과 확장성을 높이기 위한 패턴
   * 비즈니스 로직과 UI를 완전하게 분리하는 개발방법
   * 코드 재사용성, 유지보수성, 테스트 용이성을 높임
+
+### Provider
+
+* 애플리케이션 상태관리 패키지
+* InheritedWidget 하위 클래스
+  * 위젯 트리에서 데이터를 전달하는 방버 제공
+  * InheritedWidget 패턴의 단점을 보완
+* ChangeNotifier 클래스
+  * 상태가 변경될 때 위젯을 업데이트하는 클래스
+  * 해당 클래스를 상속하는 클래스를 만들고 Provider로 제공
+  * 데이터를 소비하는 위젯은 해당 데이터를 구독하고 변경될 때 업데이트
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class Counter with ChangeNotifier {
+  int _count = 0;
+
+  int get count => _count;
+
+  void increment() {
+    _count++;
+    notifyListeners();
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => Counter(),
+      child: MaterialApp(
+        title: 'Flutter Provider Example',
+        home: HomePage(),
+      ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final counter = Provider.of<Counter>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Provider Example'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Count:',
+            ),
+            Text(
+              '${counter.count}',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          counter.increment();
+        },
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+```
+
+* Counter 클래스
+  * ChangeNotifier를 상속
+  * count 변수, increment() 메서드 존재
+  * increament()
+    * 카운트를 증가
+    * notifyListeners() 메서드를 호출하여 상태 변경을 알림
+* MyApp Widget
+  * ChangeNotiferProvider를 사용하여 Counter 클래스 제공
+* HomePage Widget
+  * Provider.of를 사용하여 Counter 클래스의 인스턴스를 가져옴
+  * fllatingActionButton
+    * increment() 메서드 호출
+    * 상태 변경
+    * 해당 상태를 구독하는 Text Widget 업데이트

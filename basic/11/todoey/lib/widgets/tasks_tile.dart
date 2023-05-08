@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 class TasksTile extends StatelessWidget {
   final String taskTitle;
   final bool isChecked;
-  final Function toggleCheckboxState;
+  final Function checkboxCallback;
+  final Function longPressCallback;
 
   const TasksTile({
     super.key, required this.taskTitle,
     required this.isChecked,
-    required this.toggleCheckboxState,
+    required this.checkboxCallback,
+    required this.longPressCallback,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: () {
+        longPressCallback();
+      },
       title: Text(taskTitle,
         style: TextStyle(
           decoration: isChecked ? TextDecoration.lineThrough : null,
@@ -23,7 +28,7 @@ class TasksTile extends StatelessWidget {
       activeColor: Colors.lightBlueAccent,
         value: isChecked,
         onChanged: (bool? isToggle) {
-          toggleCheckboxState(isToggle ?? false);
+          checkboxCallback(isToggle ?? false);
         },
       ),
     );
