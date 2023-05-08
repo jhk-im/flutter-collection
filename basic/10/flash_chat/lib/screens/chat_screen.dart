@@ -147,18 +147,30 @@ class _ChatListState extends State<ChatList> {
           return const Text("Loading");
         }
 
-        return ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            if (index < snapshot.data!.docs.length) {
-              var data = snapshot.data!.docs;
-              String sender = data.elementAt(index)['sender'];
-              String text = data.elementAt(index)['text'];
-              return MessageBubble(
-                  sender: sender,
-                  text: text,
-                  isMe: sender == loggedInUser?.email);
-            }
-          },
+        // return ListView.builder(
+        //   itemBuilder: (BuildContext context, int index) {
+        //     if (index < snapshot.data!.docs.length) {
+        //       var data = snapshot.data!.docs;
+        //       String sender = data.elementAt(index)['sender'];
+        //       String text = data.elementAt(index)['text'];
+        //       return MessageBubble(
+        //           sender: sender,
+        //           text: text,
+        //           isMe: sender == loggedInUser?.email);
+        //     }
+        //   },
+
+        return ListView(
+          children: snapshot.data!.docs.reversed.map((DocumentSnapshot document) {
+            Map<String, dynamic> data =
+                document.data()! as Map<String, dynamic>;
+            String sender = data['sender'];
+            String text = data['text'];
+            return MessageBubble(
+                sender: sender,
+                text: text,
+                isMe: sender == loggedInUser?.email);
+          }).toList(),
         );
       },
     );
