@@ -45,4 +45,20 @@ class Store {
     data['type'] = type;
     return data;
   }
+
+  int getRemainStatNum() {
+    switch (remainStat) {
+      case 'plenty' : // 100 <= plenty
+        return 1;
+      case 'some' : // 30 <= some < 100
+        return 2;
+      case 'few' : // 2 <= few < 30
+        return 3;
+      case 'empty' : // empty <= 1
+        return 4;
+    }
+    return 0; // null
+  }
 }
+
+enum RemainStat { plenty, some, few }
