@@ -21,7 +21,25 @@ class MainPage extends StatelessWidget {
           ),
         ],
       ),
-      body: viewModel.isLoading ? loadingWidget() : listViewWidget(viewModel),
+      body: _buildBody(viewModel),
+    );
+  }
+
+  Widget _buildBody(StoreViewModel viewModel) {
+    if (viewModel.isLoading) {
+      return loadingWidget();
+    }
+
+    if (viewModel.stores.isEmpty) {
+      return const Center(
+        child: Text('검색된 매장이 없습니다.'),
+      );
+    }
+
+    return ListView(
+      children: viewModel.stores.map((store) {
+        return RemainStatListTile(store: store,);
+      }).toList(),
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:mask/viewmodel/store_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding().ensureVisualUpdate();
   runApp(ChangeNotifierProvider.value(
     value: StoreViewModel(), child: const MyApp(),));
 }

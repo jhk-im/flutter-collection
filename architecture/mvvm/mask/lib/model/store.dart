@@ -4,6 +4,7 @@ class Store {
   String? createdAt;
   double? lat;
   double? lng;
+  num? km;
   String? name;
   String? remainStat;
   String? stockAt;
