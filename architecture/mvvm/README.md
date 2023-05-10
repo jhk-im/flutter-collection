@@ -101,3 +101,20 @@ class HomePage extends StatelessWidget {
   * CounterModel 데이터를 View로 전달하고 사용자 액션을 CounterModel에 전달
   * ChangeNotifier를 상속
   * increment()메서드 호출시 notifyListners() 메서드를 호출하여 변경상태 알림
+
+### ensureVisualUpdate
+
+* UI업데이트가 지연되거나 일시적으로 차단되는 경우 사용
+* 현재 빌드 중인 UI 구성요소 상태를 업데이트
+* 새로운 상태가 즉시 반영되도록 보장
+* UI 업데이트가 지연되거나 차단되더라도 올바른 정보를 표시하도록 보장
+* 매우 빠르게 실행되는 메서드이므로 성능에 부담을 주지 않음
+* 가능한 경우 사용하는 것을 권장
+
+```dart
+void main() {
+  WidgetsFlutterBinding().ensureVisualUpdate();
+  runApp(ChangeNotifierProvider.value(
+    value: StoreViewModel(), child: const MyApp(),));
+}
+```
