@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:stock/util/color_schemes.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: 'assets/.env');
   runApp(const MyApp());
 }
 
@@ -12,8 +16,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Stock',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        colorScheme: lightColorScheme,
       ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: darkColorScheme,
+      ),
+      themeMode: ThemeMode.system,
       home: const MyHomePage(),
     );
   }

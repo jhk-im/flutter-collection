@@ -2,7 +2,7 @@
     package="com.example.stock">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    
+
    <application
         android:label="stock"
         android:name="${applicationName}"
