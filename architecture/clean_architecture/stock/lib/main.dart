@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:stock/data/repository/stock_repository_impl.dart';
 import 'package:stock/data/source/local/company_listing_entity.dart';
 import 'package:stock/data/source/local/stock_dao.dart';
 import 'package:stock/data/source/remote/stock_api.dart';
+import 'package:stock/domain/repository/stock_repository.dart';
 import 'package:stock/presentation/company_listings/company_listings_screen.dart';
 import 'package:stock/presentation/company_listings/company_listings_view_model.dart';
 import 'package:stock/util/color_schemes.dart';
@@ -17,16 +19,19 @@ void main() async {
   // hive
   await Hive.initFlutter();
   Hive.registerAdapter(CompanyListingEntityAdapter());
+  // repository
+  final repository = StockRepositoryImpl(
+    StockApi(),
+    StockDao(),
+  );
+  GetIt.instance.registerSingleton<StockRepositoryImpl>(repository);
   // provider
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => CompanyListingsViewModel(
-            StockRepositoryImpl(
-              StockApi(),
-              StockDao(),
-            ),
+            repository,
           ),
         ),
       ],

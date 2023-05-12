@@ -151,3 +151,35 @@
   * 타입 검사를 하지 않기 때문에 안정성이 떨어질 수 있음
   * 타입을 명시적으로 지정할 수 없기 때문에 가독성이 떨어질 수 있음
   * 타입을 기반으로한 최적화가 이루어지지 않을 수 있음
+
+### Debounce
+
+* 이벤트 발생 후 일정 시간 동안 이벤트를 무시하는 기술
+* 텍스트 필드에 입력이 변경될 때 마다 API를 호출하는 경우 사용
+  * API 호출을 지연시켜 네트워크 트래픽과 서버 부하를 줄임
+* Timer
+  * 가장 간단한 방법
+  * 이벤트 ㅏㄹ생 후 특정 시간 동안 에빈트를 무시
+* Rxdart
+  * 가장 인기있는 라이브러리
+  * 코드 작성없이 특수 연산자 사용하여 구현
+
+```dart
+// timer
+final debouncer = Debouncer(duration: Duration(milliseconds: 200));
+TextEditingController controller = TextEditingController();
+controller.addListener(() {
+  debouncer.run(() {
+    // 입력이 변경된 후 200밀리초 후에 이 코드가 실행됩니다.
+  });
+});
+
+// rxdart
+final _debouncedText = BehaviorSubject<String>();
+_debouncedText.add(query);
+_debouncedText
+  .debounceTime(const Duration(milliseconds: 500))
+  .listen((event) {
+    _getCompanyListings(query: event);
+  });
+```
