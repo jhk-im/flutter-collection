@@ -1,16 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stock/data/repository/stock_repository_impl.dart';
 import 'package:stock/data/source/local/company_listing_entity.dart';
+import 'package:stock/data/source/local/stock_dao.dart';
+import 'package:stock/data/source/remote/stock_api.dart';
+import 'package:stock/presentation/company_listings/company_listings_screen.dart';
+import 'package:stock/presentation/company_listings/company_listings_view_model.dart';
 import 'package:stock/util/color_schemes.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // dotenv
   await dotenv.load(fileName: 'assets/.env');
   // hive
+  await Hive.initFlutter();
   Hive.registerAdapter(CompanyListingEntityAdapter());
-  runApp(const MyApp());
+  // provider
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => CompanyListingsViewModel(
+            StockRepositoryImpl(
+              StockApi(),
+              StockDao(),
+            ),
+          ),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -29,27 +51,7 @@ class MyApp extends StatelessWidget {
         colorScheme: darkColorScheme,
       ),
       themeMode: ThemeMode.system,
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('title'),
-      ),
-      body: Container(),
+      home: const CompanyListingsScreen(),
     );
   }
 }
