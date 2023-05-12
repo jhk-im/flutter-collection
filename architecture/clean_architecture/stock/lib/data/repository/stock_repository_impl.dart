@@ -1,16 +1,19 @@
 import 'package:stock/data/csv/company_listings_parser.dart';
+import 'package:stock/data/csv/intraday_info_parser.dart';
 import 'package:stock/data/mapper/company_mapper.dart';
 import 'package:stock/data/source/local/stock_dao.dart';
 import 'package:stock/data/source/remote/stock_api.dart';
 import 'package:stock/domain/model/company_info.dart';
 import 'package:stock/domain/model/company_listing.dart';
+import 'package:stock/domain/model/intraday_info.dart';
 import 'package:stock/domain/repository/stock_repository.dart';
 import 'package:stock/util/result.dart';
 
 class StockRepositoryImpl implements StockRepository {
   final StockApi _api;
   final StockDao _dao;
-  final _parser = CompanyListingsParser();
+  final _companyParser = CompanyListingsParser();
+  final _intradayParser = IntradayInfoParser();
 
   StockRepositoryImpl(this._api, this._dao);
 
@@ -32,7 +35,7 @@ class StockRepositoryImpl implements StockRepository {
     // 없는 경우 리모트에서 가져옴
     try {
       final response = await _api.getListings();
-      final remoteListings = await _parser.parse(response.body);
+      final remoteListings = await _companyParser.parse(response.body);
 
       // 캐시 비우기
       await _dao.clearCompanyListings();
@@ -55,6 +58,17 @@ class StockRepositoryImpl implements StockRepository {
       return Result.success(dto.toCompanyInfo());
     } catch(e) {
       return Result.error(Exception('회사정보 로드 실패 : ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Result<List<IntradayInfo>>> getIntradayInfo(String symbol) async {
+    try {
+      final response = await _api.getIntradayInfo(symbol: symbol);
+      final results = await _intradayParser.parse(response.body);
+      return Result.success(results);
+    } catch(e) {
+      return Result.error(Exception('Intraday 로드 실패 : ${e.toString()}'));
     }
   }
 }

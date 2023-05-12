@@ -27,8 +27,7 @@ class CompanyInfoScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               ),
             if (!state.isLoading &&
-                state.errorMessage == null &&
-                state.companyInfo != null)
+                state.errorMessage == null)
               _buildBody(state.companyInfo!),
           ],
         ),
