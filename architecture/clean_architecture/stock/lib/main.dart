@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:stock/data/source/local/company_listing_entity.dart';
 import 'package:stock/util/color_schemes.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive/hive.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // dotenv
   await dotenv.load(fileName: 'assets/.env');
+  // hive
+  Hive.registerAdapter(CompanyListingEntityAdapter());
   runApp(const MyApp());
 }
 
