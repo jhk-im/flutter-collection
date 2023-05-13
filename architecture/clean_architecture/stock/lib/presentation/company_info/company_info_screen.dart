@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stock/domain/model/company_info.dart';
+import 'package:stock/presentation/company_info/company_info_state.dart';
 import 'package:stock/presentation/company_info/company_info_view_model.dart';
+import 'package:stock/presentation/company_info/components/stock_chart.dart';
 import 'package:stock/util/constants.dart';
 
 class CompanyInfoScreen extends StatelessWidget {
@@ -26,44 +27,59 @@ class CompanyInfoScreen extends StatelessWidget {
               const Center(
                 child: CircularProgressIndicator(),
               ),
-            if (!state.isLoading &&
-                state.errorMessage == null)
-              _buildBody(state.companyInfo!),
+            if (!state.isLoading && state.errorMessage == null)
+              _buildBody(context, state),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildBody(CompanyInfo companyInfo) {
+  Widget _buildBody(BuildContext context, CompanyInfoState state) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            companyInfo.name,
+            state.companyInfo?.name ?? '',
             style: cLargeTextStyle,
           ),
           Text(
-            companyInfo.symbol,
+            state.companyInfo?.symbol ?? '',
             style: cMediumItalicTextStyle,
           ),
           const Divider(),
           Text(
-            'Industry: ${companyInfo.industry}',
+            'Industry: ${state.companyInfo?.industry ?? ''}',
             style: cMediumTextStyle,
           ),
           const Divider(),
           Text(
-            'Country: ${companyInfo.country}',
+            'Country: ${state.companyInfo?.country ?? ''}',
             style: cMediumTextStyle,
           ),
           const Divider(),
           Text(
-            companyInfo.description,
+            state.companyInfo?.description ?? '',
             style: cSmallTextStyle,
           ),
+          const SizedBox(
+            height: 16.0,
+          ),
+          const Text(
+            'Market Summary',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 16.0,
+          ),
+          if (state.intradayInfo.isNotEmpty)
+            StockChart(
+              intradayInfo: state.intradayInfo,
+              graphColor: Theme.of(context).colorScheme.primary,
+              textColor: Theme.of(context).colorScheme.onSurface,
+            ),
         ],
       ),
     );

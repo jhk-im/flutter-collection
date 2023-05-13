@@ -52,7 +52,7 @@ class CompanyListingsScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(builder: (context) {
                               final repository =
-                                  GetIt.instance<StockRepositoryImpl>();
+                                  GetIt.instance<StockRepository>();
                               final symbol = state.companies[index].symbol;
                               return ChangeNotifierProvider(
                                 create: (_) =>

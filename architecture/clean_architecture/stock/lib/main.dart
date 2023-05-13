@@ -24,7 +24,7 @@ void main() async {
     StockApi(),
     StockDao(),
   );
-  GetIt.instance.registerSingleton<StockRepositoryImpl>(repository);
+  GetIt.instance.registerSingleton<StockRepository>(repository);
   // provider
   runApp(
     MultiProvider(

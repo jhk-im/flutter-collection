@@ -159,7 +159,7 @@
   * API 호출을 지연시켜 네트워크 트래픽과 서버 부하를 줄임
 * Timer
   * 가장 간단한 방법
-  * 이벤트 ㅏㄹ생 후 특정 시간 동안 에빈트를 무시
+  * 이벤트 발생 후 특정 시간 동안 에빈트를 무시
 * Rxdart
   * 가장 인기있는 라이브러리
   * 코드 작성없이 특수 연산자 사용하여 구현
@@ -183,3 +183,15 @@ _debouncedText
     _getCompanyListings(query: event);
   });
 ```
+
+### covariant
+
+* Dart 유형 시스템
+* 함수 또는 필드의 유형이 하위 유형으로만 제한될 수 있음을 나타내는 데 사용
+* 위젯 트리에서 유용
+  * StatefulWidget을 확장하는 MyWidget이 있는 경우
+  * build()라는 Widget을 받는 함수가 있음
+  * covariant 키워드를 사용하여 함수의 유형을 covariant Widget으로 지정할 수 있음
+  * MyWidget의 하위 유형만 build() 함수의 인수로 사용할 수 있음
+  * MyWidgetd의 하위 유형이 build() 함수에 자신을 전달할 수 있음을 의미함
+  * 하위 유형에서 build()를 재정의할 수 있음
