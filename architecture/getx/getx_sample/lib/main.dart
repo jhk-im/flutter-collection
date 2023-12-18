@@ -5,6 +5,8 @@ import 'package:getx_sample/common/color_schemes.g.dart';
 import 'package:getx_sample/common/translations_info.dart';
 import 'package:getx_sample/route/route_info.dart';
 
+import 'common/const.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -25,8 +27,8 @@ class MyApp extends StatelessWidget {
       locale: Get.deviceLocale,
       fallbackLocale: const Locale('en', 'US'),
       themeMode: ThemeMode.system,
-      theme: ThemeData(colorScheme: lightColorScheme, useMaterial3: true, fontFamily: 'NanumGothic'),
-      darkTheme: ThemeData(colorScheme: darkColorScheme, useMaterial3: true, fontFamily: 'NanumGothic'),
+      theme: ThemeData(colorScheme: lightColorScheme, useMaterial3: true, fontFamily: gFont),
+      darkTheme: ThemeData(colorScheme: darkColorScheme, useMaterial3: true, fontFamily: gFont),
     );
   }
 }
